@@ -26,7 +26,9 @@
         </q-td>
       </template>
     </q-table>
-    <code-people title="Child Data" :people="people"></code-people>
+    <teleport :to="codeRef" v-if="codeRef">
+      <code-people title="Child Data" :people="people"></code-people>
+    </teleport>
   </div>
 </template>
 
@@ -40,6 +42,7 @@ import { faker } from '@faker-js/faker';
 faker.locale = 'en_US';
 const emit = defineEmits<(env: 'update:people', val: Person[]) => void>();
 const props = defineProps({
+  codeRef: Object as PropType<HTMLElement>,
   people: {
     type: Array as PropType<Person[]>,
     default() {
@@ -48,6 +51,7 @@ const props = defineProps({
   },
 });
 
+const codeRef = computed(() => props.codeRef);
 const people = computed({
   get() {
     return props.people;
